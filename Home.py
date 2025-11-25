@@ -37,7 +37,6 @@ st.title("Repositorie Radar")
 st.write("GitHub 저장소를 자동 분석하는 웹 기반 오픈소스 탐색 도구입니다.")
 
 st.header(" Home")
-
 api_token = st.session_state.get("api_token", "")
 repository_url = st.session_state.get("repository_url", "")
 
