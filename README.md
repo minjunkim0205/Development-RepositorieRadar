@@ -97,8 +97,8 @@ Project Root
 
 ### 모듈 업데이트
 
-> pip install {설치 하고싶은 모듈 이름}
-> pip freeze > requirements.txt
+> pip install {설치 하고싶은 모듈 이름}  
+> pip freeze > requirements.txt  
 
 ---
 
