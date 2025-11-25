@@ -53,7 +53,7 @@ Git Branch Structure
 ├── develop               # 개발 통합 브랜치 (feature 브랜치들이 여기로 merge됨)
 │
 └── feature/              # 기능 단위 작업 브랜치 (개발자 개인 작업 영역)
-    ├── feature/github_file_tree
+    ├── feature/github
     └── feature/{기능명}  # 새로운 기능 추가 시 생성
 ```
 
@@ -125,3 +125,23 @@ Project Root
 | 김재욱 | 팀원 | 디자인 | [Gplexs](https://github.com/Gplexs) |
 
 > 위 링크는 팀원 각자의 GitHub 프로필로 연결됩니다  
+
+---
+
+## Git 명령어
+
+### 최초 연결시 master 와 다른 브랜치 불러오는법
+
+```cmd
+git init
+git remote add origin {레포지 주소}
+git pull origin master
+git fetch --all
+git checkout -b {원격브랜치명} origin/{원격브랜치명}
+```
+
+### 로컬 브랜치 삭제
+
+```cmd
+git branch -D {로컬브랜치명}
+```
