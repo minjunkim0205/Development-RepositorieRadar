@@ -11,11 +11,11 @@ from google import genai
 def api_check(_key: str) -> bool:
     client = genai.Client(api_key=_key)
     try:
-        client.models.generate_content(
+        response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents="hello"
+            contents="ping"
         )
-        # print("where is response msg?")
+        # print(response.text)
         return True
     except Exception as e:
         # print(e)
