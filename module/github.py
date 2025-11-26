@@ -105,5 +105,5 @@ def url_tree_string(_url:str) -> str:
 # ---------------------------------------------------
 if __name__=="__main__":
     url = "https://github.com/minjunkim0205/Development-RepositorieRadar"
-    tree = url_tree_string(url)
+    tree = str(url_tree_dict(url))
     print(tree, end="")

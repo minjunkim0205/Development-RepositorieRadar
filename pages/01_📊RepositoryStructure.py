@@ -5,6 +5,7 @@
 # ---------------------------------------------------
 import streamlit as st
 import module.github as github
+import module.gpt as gpt
 
 # ---------------------------------------------------
 # Get session state
@@ -33,4 +34,4 @@ st.header("📊Repository Structure")
 st.code(github.url_tree_string(repository_url)) 
 
 st.header("AI Comment")
-st.code("@@@ 여기에 위 파일 트리를 input 으로 한 GPT/Gemini output 코멘트 @@@")
+st.write(gpt.api_repository_structure(api_token, github.url_tree_dict(repository_url)))
