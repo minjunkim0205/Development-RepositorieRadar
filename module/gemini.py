@@ -15,7 +15,7 @@ def api_check(api_key: str) -> bool:
     try:
         client = genai.Client(api_key=api_key)
         client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.5-flash", #모델 오류 해결
             contents="hello"
         )
         return True
@@ -27,9 +27,9 @@ def api_check(api_key: str) -> bool:
 # Test
 # ---------------------------------------------------
 if __name__ == "__main__":
-    key = input("Your Gemini API Key >> ").strip()
+    key = input("Gemini API Key를 입력하세요 :  >> ").strip()
 
     if api_check(key):
-        print("✔ API Key is valid!")
+        print("API 키가 유효합니다.")
     else:
-        print("❌ Invalid API Key!")
+        print("유효하지 않은 API 키입니다.")
