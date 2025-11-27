@@ -38,9 +38,11 @@ st.title("⚙️Environment Setup")
 # ---------------------------------------------------
 st.header("AI Comment")
 
-ai_comment = contents["02"]["AI Comment"]
-api_type = options["api_type"]
 language = options["language"]
+api_key = options["api_key"]
+api_type = options["api_type"]
+repository_url = options["repository_url"]
+ai_comment = contents["02"]["AI Comment"]
 
 with st.spinner("Wait for it...", show_time=True):
     if not ai_comment:
