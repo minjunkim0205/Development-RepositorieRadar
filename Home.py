@@ -6,54 +6,100 @@
 import streamlit as st
 import module.github as github
 import module.gpt as gpt
+import module.gemini as gemini
 
 # ---------------------------------------------------
 # Streamlit config
 # ---------------------------------------------------
 st.set_page_config(
     page_title="Repositorie Radar",
-    page_icon=":shark:",
+    page_icon="📡",
     layout="wide",
 )
 
 # ---------------------------------------------------
+# Session state init
+# ---------------------------------------------------
+if "options" not in st.session_state:
+    st.session_state["options"] = {
+        "language": "Korean",
+        "api_key": "",
+        "api_type": "",
+        "repository_url": ""
+    }
+
+if "contents" not in st.session_state:
+    st.session_state["contents"] = {
+        "01": {"File Tree": "", "AI Comment": ""}, 
+        "02": {"AI Comment": ""}, 
+        "03": {"AI Comment": ""}, 
+        "04": {"AI Comment": ""}
+    }
+
+# ---------------------------------------------------
+# Load session data into local variables
+# ---------------------------------------------------
+options = st.session_state["options"]
+contents = st.session_state["contents"]
+
+# ---------------------------------------------------
 # Sidebar(API,URL input)
 # ---------------------------------------------------
-if "api_token" not in st.session_state:
-    st.session_state["api_token"] = ""
-if "repository_url" not in st.session_state:
-    st.session_state["repository_url"] = ""
-
 st.sidebar.title("Input")
-api_token = st.sidebar.text_input("GPT/Gemini API token", value=st.session_state["api_token"], type="password")
-repository_url = st.sidebar.text_input("Github repository url", value=st.session_state["repository_url"])
+api_key = st.sidebar.text_input("🔑 GPT/Gemini API key", value=options["api_key"], type="password")
+repository_url = st.sidebar.text_input("📊 GitHub Repository URL", value=options["repository_url"])
 
 if st.sidebar.button("Save"):
-    if gpt.api_check(api_token):
-        st.session_state["api_token"] = api_token
-        st.sidebar.success("올바른 API 키")
+    # Contents 저장 정보 리셋
+    contents = {
+        "01": {"File Tree": "", "AI Comment": ""}, 
+        "02": {"AI Comment": ""}, 
+        "03": {"AI Comment": ""}, 
+        "04": {"AI Comment": ""}
+    }
+    # API 키 체크
+    if gpt.api_check(api_key):
+        options["api_key"] = api_key
+        options["api_type"] = "GPT"
+        st.sidebar.success("올바른 API 키(Gpt)")
+    elif gemini.api_check(api_key):
+        options["api_key"] = api_key
+        options["api_type"] = "GEMINI"
+        st.sidebar.success("올바른 API 키(Gemini)")
     else:
+        options["api_key"] = ""
+        options["api_type"] = ""
         st.sidebar.error("잘못된 API 키")
+    # Repository URL 체크
     if github.url_check(repository_url):
-        st.session_state["repository_url"] = repository_url
+        options["repository_url"] = repository_url
         st.sidebar.success("올바른 Repository 링크")
     else:
+        options["repository_url"] = ""
         st.sidebar.error("잘못된 Repository 링크")
+    # 세션 스테이트에 다시 저장
+    st.session_state["options"] = options
+    st.session_state["contents"] = contents
 
 # ---------------------------------------------------
 # Home Page
 # ---------------------------------------------------
-st.title("Repositorie Radar")
-st.write("GitHub 저장소를 자동 분석하는 웹 기반 오픈소스 탐색 도구입니다.")
-
-st.header(" Home")
-api_token = st.session_state.get("api_token", "")
-repository_url = st.session_state.get("repository_url", "")
+#st.title("👾 Repositorie Radar")
+#st.write("GitHub 저장소를 자동 분석하는 웹 기반 오픈소스 탐색 도구입니다.")
+#st.title("Home")
+st.markdown("""
+<h1 style="text-align:center;">
+📡 Repository Radar
+</h1>
+<p style="text-align:center;">
+GitHub 저장소를 자동 분석하는 웹 기반 오픈소스 탐색 도구입니다.
+</p>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------
 # Check input
 # ---------------------------------------------------
-if api_token and repository_url:
-    st.success("GitHub URL과 API Token이 확인되었습니다. 왼쪽 사이드바에서 분석 페이지로 이동하세요!")
+if options["api_key"] and options["repository_url"]:
+    st.success("✅️ API KEY와 GitHub URL가 확인되었습니다. 왼쪽 사이드바에서 분석 페이지로 이동하세요!")
 else:
-    st.error("API Token 과 GitHub URL를 입력해야 합니다.")
+    st.error("⛔ API KEY와 GitHub URL를 입력해야 합니다.")
